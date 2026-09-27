@@ -11,7 +11,7 @@ app = FastAPI(title="Prediksi Produksi Padi API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://rice-yield-prediction-psi.vercel.app/", "http://localhost:5173"],
+    allow_origin_regex=r"https://rice-yield-prediction.*\.vercel\.app",
     allow_methods=["*"],
     allow_headers=["*"],
 )
