@@ -1,7 +1,8 @@
 import json
 import ee
-from app.core.config import GEE_PROJECT_ID, GEE_SERVICE_ACCOUNT_JSON
+from app.core.config import GEE_PROJECT_ID, GEE_SERVICE_ACCOUNT_JSON, GEE_SERVICE_ACCOUNT_JSON_CONTENT
 import threading
+import tempfile
 
 _gee_lock = threading.Lock()
 CLOUD_PROB_THRESHOLD = 40
