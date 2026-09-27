@@ -1,0 +1,145 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background-color: #f4f6f5;
+  color: #1f2d24;
+}
+
+.app-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+.app-container > h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1f4d2c;
+  margin-bottom: 24px;
+}
+
+.form-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 16px;
+  background: #ffffff;
+  padding: 20px 24px;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  margin-bottom: 24px;
+}
+
+.form-panel label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #4b5d51;
+}
+
+.form-panel select,
+.form-panel input {
+  padding: 8px 10px;
+  border: 1px solid #d3dbd6;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  min-width: 140px;
+}
+
+.form-panel button {
+  padding: 10px 24px;
+  background-color: #2f7d46;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.form-panel button:hover:not(:disabled) {
+  background-color: #256538;
+}
+
+.form-panel button:disabled {
+  background-color: #a9c2ae;
+  cursor: not-allowed;
+}
+
+.error-panel {
+  background: #fdecea;
+  color: #a12622;
+  border: 1px solid #f5b7b3;
+  padding: 14px 18px;
+  border-radius: 10px;
+  margin-bottom: 24px;
+  font-size: 0.9rem;
+}
+
+.result-panel {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px 28px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  margin-bottom: 24px;
+}
+
+.result-panel h2 {
+  font-size: 1.15rem;
+  color: #1f4d2c;
+  margin-bottom: 16px;
+}
+
+.prediksi-utama {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #2f7d46;
+  margin-bottom: 20px;
+}
+
+.index-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 16px;
+}
+
+.index-grid > div {
+  background: #f4f8f5;
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.index-grid span {
+  font-size: 0.75rem;
+  color: #6b7c70;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.map-panel {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.peta-placeholder {
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8a978d;
+  font-size: 0.95rem;
+  background: #f4f6f5;
+}
