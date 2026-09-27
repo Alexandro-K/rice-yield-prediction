@@ -8,12 +8,25 @@ CLOUD_PROB_THRESHOLD = 40
 
 
 def init_gee():
-    with open(GEE_SERVICE_ACCOUNT_JSON) as f:
-        key_data = json.load(f)
+    if not GEE_SERVICE_ACCOUNT_JSON_CONTENT and not GEE_SERVICE_ACCOUNT_JSON:
+        raise RuntimeError(
+            "Kredensial GEE tidak ditemukan. Pastikan environment variable "
+            "GEE_SERVICE_ACCOUNT_JSON_CONTENT (untuk deployment) atau "
+            "GEE_SERVICE_ACCOUNT_JSON (untuk lokal) sudah diset dengan benar."
+        )
+
+    if GEE_SERVICE_ACCOUNT_JSON_CONTENT:
+        key_data = json.loads(GEE_SERVICE_ACCOUNT_JSON_CONTENT)
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as tmp:
+            json.dump(key_data, tmp)
+            key_path = tmp.name
+    else:
+        with open(GEE_SERVICE_ACCOUNT_JSON) as f:
+            key_data = json.load(f)
+        key_path = GEE_SERVICE_ACCOUNT_JSON
 
     service_account_email = key_data["client_email"]
-
-    credentials = ee.ServiceAccountCredentials(service_account_email, GEE_SERVICE_ACCOUNT_JSON)
+    credentials = ee.ServiceAccountCredentials(service_account_email, key_path)
     ee.Initialize(credentials, project=GEE_PROJECT_ID)
     print(f"GEE terautentikasi sebagai: {service_account_email}")
 
