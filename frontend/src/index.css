@@ -143,3 +143,292 @@ body {
   font-size: 0.95rem;
   background: #f4f6f5;
 }
+
+.insight-panel,
+.grafik-panel {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px 28px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  margin-bottom: 24px;
+}
+
+.insight-panel h2,
+.grafik-panel h2 {
+  font-size: 1.15rem;
+  color: #1f4d2c;
+  margin-bottom: 16px;
+}
+
+.insight-info {
+  color: #6b7c70;
+  font-size: 0.9rem;
+}
+
+.insight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.insight-card {
+  background: #f4f8f5;
+  border-radius: 8px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.insight-label {
+  font-size: 0.75rem;
+  color: #6b7c70;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.insight-nilai {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2d24;
+}
+
+.insight-card small {
+  color: #6b7c70;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.badge-rendah {
+  background: #fbeadb;
+  color: #9a4a0c;
+}
+
+.badge-sedang {
+  background: #e3ecf5;
+  color: #2c4f75;
+}
+
+.badge-tinggi {
+  background: #dcefe2;
+  color: #1f6b38;
+}
+
+.insight-narasi {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #2c3a31;
+  margin-bottom: 20px;
+}
+
+.insight-tabel {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  margin-bottom: 8px;
+}
+
+.insight-tabel th,
+.insight-tabel td {
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid #e3e9e5;
+}
+
+.insight-tabel th {
+  color: #4b5d51;
+  font-weight: 600;
+  background: #f4f8f5;
+}
+
+.insight-catatan {
+  color: #6b7c70;
+  font-size: 0.78rem;
+}
+
+.grafik-keterangan {
+  font-size: 0.85rem;
+  color: #6b7c70;
+  margin-bottom: 12px;
+}
+
+.app-subjudul {
+  margin-top: -12px;
+  margin-bottom: 24px;
+  color: #5b6d61;
+  font-size: 0.95rem;
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #d9e1dc;
+  overflow-x: auto;
+}
+
+.nav-tab {
+  background: none;
+  border: none;
+  padding: 10px 18px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #6b7c70;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;
+  white-space: nowrap;
+}
+
+.nav-tab:hover {
+  color: #1f4d2c;
+}
+
+.nav-tab.aktif {
+  color: #1f4d2c;
+  border-bottom-color: #2f7d46;
+}
+
+.seksi {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px 28px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  margin-bottom: 24px;
+}
+
+.seksi h2 {
+  font-size: 1.15rem;
+  color: #1f4d2c;
+  margin-bottom: 16px;
+}
+
+.seksi-info {
+  color: #6b7c70;
+  font-size: 0.9rem;
+}
+
+.seksi-teks {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #2c3a31;
+  margin-bottom: 16px;
+}
+
+.metrik-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+}
+
+.metrik-kartu {
+  background: #f4f8f5;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.metrik-kartu small {
+  color: #6b7c70;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.alur {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.alur-langkah {
+  position: relative;
+  display: flex;
+  gap: 16px;
+  padding-bottom: 20px;
+}
+
+.alur-langkah:last-child {
+  padding-bottom: 0;
+}
+
+.alur-langkah:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 17px;
+  top: 36px;
+  bottom: 0;
+  width: 2px;
+  background: #cfdcd3;
+}
+
+.alur-nomor {
+  flex: 0 0 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #2f7d46;
+  color: #ffffff;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alur-isi h3 {
+  font-size: 1rem;
+  color: #1f4d2c;
+  margin-bottom: 4px;
+}
+
+.alur-isi p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #3b4a40;
+}
+
+.daftar {
+  padding-left: 22px;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: #2c3a31;
+}
+
+.daftar li {
+  margin-bottom: 8px;
+}
+
+.tim-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.tim-kartu {
+  background: #f4f8f5;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.tim-kartu strong {
+  display: block;
+  color: #1f2d24;
+  margin-bottom: 6px;
+}
+
+.tim-kartu span {
+  display: block;
+  font-size: 0.85rem;
+  color: #6b7c70;
+  line-height: 1.6;
+}

@@ -29,3 +29,9 @@ def predict(feature_row: dict) -> float:
     df_input = pd.DataFrame([feature_row])[FITUR_FINAL]
     pred = model.predict(df_input.values)
     return float(pred[0])
+
+def predict_batch(feature_rows: list[dict]) -> list[float]:
+    model = load_model()
+    df_input = pd.DataFrame(feature_rows)[FITUR_FINAL]
+    pred = model.predict(df_input.values)
+    return [float(p) for p in pred]
