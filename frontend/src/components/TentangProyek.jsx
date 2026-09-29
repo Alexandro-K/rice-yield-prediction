@@ -5,12 +5,12 @@ import {
 function TentangProyek() {
   return (
     <>
-      <div className="seksi">
+      <div className="blok">
         <h2>Ringkasan</h2>
-        <p className="seksi-teks">{RINGKASAN}</p>
+        <p className="blok-teks">{RINGKASAN}</p>
       </div>
 
-      <div className="seksi">
+      <div className="blok">
         <h2>Alur Sistem</h2>
         <ol className="alur">
           {ALUR.map((langkah, i) => (
@@ -25,7 +25,7 @@ function TentangProyek() {
         </ol>
       </div>
 
-      <div className="seksi">
+      <div className="blok">
         <h2>Cara Kerja Saat Tombol Prediksi Ditekan</h2>
         <ol className="daftar">
           {CARA_KERJA.map((teks) => (
@@ -34,7 +34,7 @@ function TentangProyek() {
         </ol>
       </div>
 
-      <div className="seksi">
+      <div className="blok">
         <h2>Sumber Data dan Model</h2>
         <table className="insight-tabel">
           <thead>
@@ -54,7 +54,7 @@ function TentangProyek() {
         </table>
       </div>
 
-      <div className="seksi">
+      <div className="blok">
         <h2>Keterbatasan</h2>
         <ul className="daftar">
           {KETERBATASAN.map((teks) => (
@@ -63,17 +63,16 @@ function TentangProyek() {
         </ul>
       </div>
 
-      <div className="seksi">
+      <div className="blok">
         <h2>Tim Pengembang</h2>
-        <p className="seksi-teks">
-          {IDENTITAS.namaTim} - {IDENTITAS.kompetisi}. {IDENTITAS.programStudi}, {IDENTITAS.institusi}.
+        <p className="blok-teks">
+          {IDENTITAS.kompetisi}. {IDENTITAS.institusi}.
         </p>
         <div className="tim-grid">
           {ANGGOTA.map((a, i) => (
-            <div key={`${a.npm}-${i}`} className="tim-kartu">
+            <div key={`anggota-${i}`} className="tim-kartu">
               <strong>{a.nama}</strong>
-              <span>NPM {a.npm}</span>
-              <span>{a.peran}</span>
+              <span>NPM: {a.npm}</span>
             </div>
           ))}
         </div>

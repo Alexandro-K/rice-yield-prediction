@@ -2,7 +2,6 @@ import pandas as pd
 from app.core.database import init_db, SessionLocal, HistorisIndex, DB_PATH
 from app.core.config import DATA_DIR
 
-
 def seed():
     init_db()
     db = SessionLocal()

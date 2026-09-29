@@ -10,11 +10,40 @@ NAMA_BULAN = [
     "Juli", "Agustus", "September", "Oktober", "November", "Desember",
 ]
 
-DESKRIPSI_VEGETASI = {
-    "Rendah": "yang umumnya mengindikasikan tutupan vegetasi minim, misalnya fase awal tanam atau pascapanen.",
-    "Sedang": "yang umumnya mengindikasikan tanaman pada fase pertumbuhan.",
-    "Tinggi": "yang umumnya mengindikasikan tutupan vegetasi lebat, sejalan dengan fase pertumbuhan vegetatif yang baik.",
+# Parafrase dari paper yang diberikan pengguna. NDVI dan EVI punya dasar literatur;
+# SAVI belum punya sumber literatur yang diberikan, sehingga narasinya netral.
+DESKRIPSI_NDVI = {
+    "Rendah": (
+        "berada pada 25% terendah riwayat NDVI kabupaten ini. Penurunan NDVI dari waktu ke waktu "
+        "umumnya diasosiasikan dengan pencoklatan atau penurunan kehijauan vegetasi (Myers-Smith et al., 2020)."
+    ),
+    "Sedang": "berada pada rentang tengah riwayat NDVI kabupaten ini, sejalan dengan fase pertumbuhan tanaman.",
+    "Tinggi": (
+        "berada pada 25% tertinggi riwayat NDVI kabupaten ini. Kenaikan NDVI umumnya diasosiasikan dengan "
+        "penghijauan atau kehijauan vegetasi yang meningkat (Myers-Smith et al., 2020), dan NDVI secara umum "
+        "dipakai sebagai ukuran kehijauan aboveground vegetation (Pettorelli et al., 2005; 2011)."
+    ),
 }
+
+DESKRIPSI_EVI = {
+    "Rendah": (
+        "berada pada 25% terendah riwayat EVI kabupaten ini. Nilai EVI yang menurun dari waktu ke waktu "
+        "dapat mengindikasikan pelemahan kondisi dan kesehatan vegetasi."
+    ),
+    "Sedang": "berada pada rentang tengah riwayat EVI kabupaten ini.",
+    "Tinggi": (
+        "berada pada 25% tertinggi riwayat EVI kabupaten ini. Pada vegetasi sehat, nilai EVI umumnya berkisar "
+        "0,2 sampai 0,8, dengan nilai yang lebih tinggi menunjukkan kanopi yang lebih rapat dan sehat."
+    ),
+}
+
+DESKRIPSI_SAVI = {
+    "Rendah": "berada pada 25% terendah riwayat SAVI kabupaten ini.",
+    "Sedang": "berada pada rentang tengah riwayat SAVI kabupaten ini.",
+    "Tinggi": "berada pada 25% tertinggi riwayat SAVI kabupaten ini.",
+}
+
+DESKRIPSI_PER_INDEKS = {"NDVI": DESKRIPSI_NDVI, "EVI": DESKRIPSI_EVI, "SAVI": DESKRIPSI_SAVI}
 
 _cache = {}
 
@@ -22,7 +51,9 @@ _cache = {}
 def _load_data() -> dict:
     if not _cache:
         with open(DATA_DIR / "produksi_stats.json") as f:
-            _cache["stats"] = json.load(f)
+            _cache["produksi_stats"] = json.load(f)
+        with open(DATA_DIR / "vegetasi_stats.json") as f:
+            _cache["vegetasi_stats"] = json.load(f)
         _cache["riwayat"] = pd.read_csv(DATA_DIR / "produksi_historis.csv")
         with open(DATA_DIR / "model_insight.json") as f:
             _cache["model_insight"] = json.load(f)
@@ -35,7 +66,7 @@ def _format_angka(nilai: float, desimal: int = 2) -> str:
 
 
 def kabupaten_tersedia(kabupaten: str) -> bool:
-    return kabupaten in _load_data()["stats"]
+    return kabupaten in _load_data()["produksi_stats"]
 
 
 def get_model_insight() -> dict:
@@ -51,56 +82,80 @@ def get_riwayat_produksi(kabupaten: str) -> list[dict]:
     ]
 
 
-def klasifikasi_produksi(kabupaten: str, prediksi: float) -> tuple[str, dict]:
-    s = _load_data()["stats"][kabupaten]
-    batas = {"q25": s["q25"], "median": s["median"], "q75": s["q75"]}
-    if prediksi < s["q25"]:
+def klasifikasi_produksi(kabupaten: str, bulan: int, prediksi: float) -> tuple[str, dict, str]:
+    s = _load_data()["produksi_stats"][kabupaten]
+    per_bulan = s["kuartil_per_bulan"].get(str(bulan))
+
+    if per_bulan:
+        q25, q75 = per_bulan["q25"], per_bulan["q75"]
+        sumber = f"kuartil produksi bulan {NAMA_BULAN[bulan - 1]} kabupaten ini ({per_bulan['n']} tahun data)"
+    else:
+        q25, q75 = s["q25_keseluruhan"], s["q75_keseluruhan"]
+        sumber = "kuartil produksi seluruh bulan kabupaten ini (data bulan tersebut belum cukup untuk dihitung terpisah)"
+
+    if prediksi < q25:
         kategori = "Rendah"
-    elif prediksi > s["q75"]:
+    elif prediksi > q75:
         kategori = "Tinggi"
     else:
         kategori = "Sedang"
-    return kategori, batas
+
+    return kategori, {"q25": q25, "q75": q75}, sumber
 
 
-def klasifikasi_vegetasi(ndvi: float) -> str:
-    if ndvi < 0.3:
-        return "Rendah"
-    if ndvi < 0.6:
-        return "Sedang"
-    return "Tinggi"
+def klasifikasi_vegetasi(kabupaten: str, indeks: str, nilai: float) -> tuple[str, dict, str]:
+    s = _load_data()["vegetasi_stats"][kabupaten][indeks]
+    batas = {"q25": s["q25"], "q75": s["q75"]}
+    if nilai < s["q25"]:
+        kategori = "Rendah"
+    elif nilai > s["q75"]:
+        kategori = "Tinggi"
+    else:
+        kategori = "Sedang"
+    deskripsi = DESKRIPSI_PER_INDEKS[indeks][kategori]
+    return kategori, batas, deskripsi
 
 
 def bandingkan_musiman(kabupaten: str, bulan: int, prediksi: float) -> tuple[Optional[float], Optional[float]]:
-    rata = _load_data()["stats"][kabupaten]["rata_rata_per_bulan"].get(str(bulan))
-    if not rata:
+    per_bulan = _load_data()["produksi_stats"][kabupaten]["kuartil_per_bulan"].get(str(bulan))
+    if not per_bulan:
         return None, None
+    rata = per_bulan["rata_rata"]
     selisih = (prediksi - rata) / rata * 100
     return rata, selisih
 
 
-def susun_narasi(kabupaten, tahun, bulan, prediksi, ndvi, kategori_prod, kategori_veg, rata_bulan, selisih) -> str:
+def susun_narasi(kabupaten, tahun, bulan, prediksi,
+                  kategori_prod, sumber_kuartil_prod, rata_bulan, selisih,
+                  ndvi_val, kategori_ndvi, deskripsi_ndvi,
+                  evi_val, kategori_evi, deskripsi_evi,
+                  savi_val, kategori_savi, deskripsi_savi) -> str:
     nama_bulan = NAMA_BULAN[bulan - 1]
 
     kalimat = [
         f"Produksi padi di {kabupaten} pada {nama_bulan} {tahun} diprediksi sebesar "
-        f"{_format_angka(prediksi)} ton, termasuk kategori {kategori_prod.lower()} "
-        f"dibandingkan sebaran produksi bulanan historis kabupaten ini."
+        f"{_format_angka(prediksi)} ton, termasuk kategori {kategori_prod.lower()} berdasarkan {sumber_kuartil_prod}."
     ]
 
     if rata_bulan is not None and selisih is not None:
         arah = "lebih tinggi" if selisih >= 0 else "lebih rendah"
         kalimat.append(
             f"Nilai ini {_format_angka(abs(selisih), 1)}% {arah} dari rata-rata historis bulan "
-            f"{nama_bulan} ({_format_angka(rata_bulan)} ton)."
+            f"{nama_bulan} di kabupaten ini ({_format_angka(rata_bulan)} ton)."
         )
 
     kalimat.append(
-        f"Nilai NDVI pada periode tersebut adalah {ndvi:.4f} (kategori {kategori_veg.lower()}), "
-        f"{DESKRIPSI_VEGETASI[kategori_veg]}"
+        f"Nilai NDVI pada periode ini adalah {ndvi_val:.4f} (kategori {kategori_ndvi.lower()}), "
+        f"{deskripsi_ndvi}"
     )
     kalimat.append(
-        "Interpretasi ini bersifat indikatif dan didasarkan pada pola data historis, "
-        "bukan pengganti data produksi resmi."
+        f"Nilai EVI adalah {evi_val:.4f} (kategori {kategori_evi.lower()}), {deskripsi_evi}"
+    )
+    kalimat.append(
+        f"Nilai SAVI adalah {savi_val:.4f} (kategori {kategori_savi.lower()}), {deskripsi_savi}"
+    )
+    kalimat.append(
+        "Seluruh kategori vegetasi dan produksi ditentukan dari kuartil pertama dan ketiga riwayat data "
+        "kabupaten yang bersangkutan. Interpretasi ini bersifat indikatif, bukan pengganti data produksi resmi."
     )
     return " ".join(kalimat)

@@ -35,7 +35,6 @@ function susunData(riwayat, tahun, bulan, prediksi, titikAntara) {
     aktualPeriode: titikTarget.aktual,
   })
 
-  // Garis putus-putus berawal dari data aktual tepat sebelum bulan prediksi pertama
   const kunciAwal = titikAntara.length > 0
     ? Math.min(...titikAntara.map((p) => p.tahun * 12 + (p.bulan - 1)))
     : kunciTarget
@@ -44,7 +43,6 @@ function susunData(riwayat, tahun, bulan, prediksi, titikAntara) {
     peta.set(kunciAwal - 1, { ...jangkar, jembatan: jangkar.aktual })
   }
 
-  // Isi bulan yang kosong agar sumbu waktu tidak melompat
   const semuaKunci = Array.from(peta.keys())
   const kunciMin = Math.min(...semuaKunci)
   const kunciMaks = Math.max(...semuaKunci)
@@ -68,7 +66,6 @@ function GrafikRiwayat({ insight, hasil, trajectory }) {
     hasil.prediksi_produksi_ton,
     titikAntara,
   )
-  const { q25, q75 } = insight.batas_kuartil
   const labelPrediksi = buatLabel(hasil.tahun, hasil.bulan)
   const adaAktual = data.some((d) => d.aktualPeriode !== undefined)
 
@@ -81,7 +78,6 @@ function GrafikRiwayat({ insight, hasil, trajectory }) {
     <div className="grafik-panel">
       <h2>Riwayat Produksi {hasil.kabupaten}</h2>
       <p className="grafik-keterangan">
-        Garis putus-putus horizontal menandai batas kategori rendah dan tinggi.
         Garis putus-putus oranye menunjukkan prediksi dari bulan setelah data terakhir hingga bulan target.
         Titik oranye besar adalah hasil prediksi periode yang dipilih
         {adaAktual ? ', titik hijau tua adalah data aktual pada periode yang sama.' : '.'}
@@ -108,18 +104,6 @@ function GrafikRiwayat({ insight, hasil, trajectory }) {
             <YAxis tick={{ fontSize: 12 }} tickFormatter={(v) => formatAngka(v, 0)} width={70} />
             <Tooltip formatter={(nilai) => `${formatAngka(nilai)} Ton`} />
             <Legend />
-            <ReferenceLine
-              y={q75}
-              stroke="#2f7d46"
-              strokeDasharray="6 4"
-              label={{ value: 'Batas tinggi', position: 'insideTopRight', fontSize: 11, fill: '#2f7d46' }}
-            />
-            <ReferenceLine
-              y={q25}
-              stroke="#b45309"
-              strokeDasharray="6 4"
-              label={{ value: 'Batas rendah', position: 'insideBottomRight', fontSize: 11, fill: '#b45309' }}
-            />
             <ReferenceLine x={labelPrediksi} stroke="#d97706" strokeOpacity={0.5} strokeDasharray="3 3" />
 
             <Line

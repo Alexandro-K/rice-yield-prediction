@@ -8,7 +8,6 @@ class MapLayerRequest(BaseModel):
     bulan: int
     layer: str = "NDVI"  # pilihan: NDVI, EVI, SAVI, RGB
 
-
 class MapLayerResponse(BaseModel):
     kabupaten: str
     tile_url: str

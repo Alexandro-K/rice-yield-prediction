@@ -4,7 +4,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 120000, // GEE bisa butuh waktu lama, beri ruang hingga 2 menit
+  timeout: 120000, 
 })
 
 export async function predictProduksi(kabupaten, tahun, bulan) {
@@ -24,6 +24,8 @@ export async function interpretHasil(hasilPrediksi) {
     bulan: hasilPrediksi.bulan,
     prediksi_produksi_ton: hasilPrediksi.prediksi_produksi_ton,
     ndvi_mean: hasilPrediksi.ndvi_mean,
+    evi_mean: hasilPrediksi.evi_mean,
+    savi_mean: hasilPrediksi.savi_mean,
   })
   return response.data
 }

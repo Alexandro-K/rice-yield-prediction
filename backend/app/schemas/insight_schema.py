@@ -8,6 +8,8 @@ class InterpretRequest(BaseModel):
     bulan: int
     prediksi_produksi_ton: float
     ndvi_mean: float
+    evi_mean: float
+    savi_mean: float
 
 
 class TitikRiwayat(BaseModel):
@@ -16,11 +18,20 @@ class TitikRiwayat(BaseModel):
     produksi_ton: float
 
 
+class KategoriIndeks(BaseModel):
+    kategori: str
+    batas: dict[str, float]
+    deskripsi: str
+
+
 class InterpretResponse(BaseModel):
     kategori_produksi: str
-    batas_kuartil: dict[str, float]
+    batas_produksi: dict[str, float]
+    sumber_batas_produksi: str
     rata_rata_bulan_sama_ton: Optional[float] = None
     selisih_persen_vs_musiman: Optional[float] = None
-    kategori_vegetasi: str
+    ndvi: KategoriIndeks
+    evi: KategoriIndeks
+    savi: KategoriIndeks
     narasi: str
     riwayat_produksi: list[TitikRiwayat]

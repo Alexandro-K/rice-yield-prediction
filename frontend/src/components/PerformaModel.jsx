@@ -19,10 +19,10 @@ function PerformaModel() {
     return () => { batal = true }
   }, [])
 
-  if (loading) return <div className="seksi seksi-info">Memuat informasi model...</div>
+  if (loading) return <div className="blok blok-info">Memuat informasi model...</div>
   if (error || !info) {
     return (
-      <div className="seksi seksi-info">
+      <div className="blok blok-info">
         Informasi model tidak dapat dimuat. Server mungkin sedang aktif kembali; coba beberapa saat lagi.
       </div>
     )
@@ -61,9 +61,9 @@ function PerformaModel() {
 
   return (
     <>
-      <div className="seksi">
+      <div className="blok">
         <h2>Performa Model pada Data Uji</h2>
-        <p className="seksi-teks">
+        <p className="blok-teks">
           Model: {info.model}. Dilatih dengan data {info.data_latih_evaluasi.toLowerCase()} dan diuji pada
           data {info.data_uji.toLowerCase()} ({info.jumlah_data_uji} observasi), menggunakan {info.jumlah_fitur} fitur.
         </p>
@@ -80,7 +80,7 @@ function PerformaModel() {
       </div>
 
       {perbandingan.length > 0 && (
-        <div className="seksi">
+        <div className="blok">
           <h2>Perbandingan Model</h2>
           <table className="insight-tabel">
             <thead>
@@ -105,9 +105,9 @@ function PerformaModel() {
         </div>
       )}
 
-      <div className="seksi">
+      <div className="blok">
         <h2>Faktor yang Paling Memengaruhi Prediksi</h2>
-        <p className="seksi-teks">
+        <p className="blok-teks">
           Setiap kelompok fitur diacak secara bergantian pada data uji, lalu diukur seberapa besar kesalahan
           prediksi meningkat. Semakin besar persentasenya, semakin besar peran kelompok tersebut.
         </p>
@@ -128,9 +128,9 @@ function PerformaModel() {
         </div>
       </div>
 
-      <div className="seksi">
+      <div className="blok">
         <h2>Catatan Metodologi</h2>
-        <p className="seksi-teks">{info.catatan}</p>
+        <p className="blok-teks">{info.catatan}</p>
       </div>
     </>
   )

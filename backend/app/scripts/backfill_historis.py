@@ -1,12 +1,3 @@
-"""
-Melengkapi data/historis_index.csv dari bulan terakhir yang tersedia hingga bulan akhir tertentu,
-memakai pipeline GEE yang sama dengan endpoint /predict.
-
-Jalankan dari folder backend/:
-    python -m app.scripts.backfill_historis 2026 8
-
-Proses boleh dihentikan (Ctrl+C) dan dilanjutkan; bulan yang sudah ada akan dilewati.
-"""
 import sys
 import time
 from datetime import datetime

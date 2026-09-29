@@ -1,15 +1,14 @@
 export const IDENTITAS = {
-  kompetisi: 'GEMASTIK 2026',          // ISI: pastikan sesuai
+  kompetisi: 'KOMPRES 16 (2026)',
   namaTim: 'Nama Tim',                 // ISI
-  institusi: 'Nama Institusi',         // ISI
-  programStudi: 'Program Studi',       // ISI
+  institusi: 'Universitas Gunadarma',
 }
 
 export const ANGGOTA = [
-  { nama: 'Nama Anggota 1', npm: 'NPM', peran: 'Peran' },   // ISI
-  { nama: 'Nama Anggota 2', npm: 'NPM', peran: 'Peran' },   // ISI
-  { nama: 'Nama Anggota 3', npm: 'NPM', peran: 'Peran' },   // ISI
-  { nama: 'Nama Anggota 4', npm: 'NPM', peran: 'Peran' },   // ISI
+  { nama: 'Nama Anggota 1', npm: 'NPM' },   // ISI
+  { nama: 'Nama Anggota 2', npm: 'NPM' },   // ISI
+  { nama: 'Nama Anggota 3', npm: 'NPM' },   // ISI
+  { nama: 'Nama Anggota 4', npm: 'NPM' },   // ISI
 ]
 
 export const RINGKASAN =

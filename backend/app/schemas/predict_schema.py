@@ -7,7 +7,6 @@ class PredictRequest(BaseModel):
     tahun: int
     bulan: int
 
-
 class PredictResponse(BaseModel):
     kabupaten: str
     tahun: int
@@ -23,7 +22,6 @@ class TitikTrajectory(BaseModel):
     tahun: int
     bulan: int
     prediksi_produksi_ton: float
-
 
 class TrajectoryResponse(BaseModel):
     kabupaten: str
